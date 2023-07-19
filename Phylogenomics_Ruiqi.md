@@ -33,7 +33,7 @@ Ruiqi.Li@Colorado.edu
   ------
 
 
-### 1. Simplified Workflow
+## 1. Simplified Workflow
 
 Software Overview
 
@@ -43,7 +43,7 @@ Software Overview
 | TransDecoder | [Find Coding Regions Within Transcripts](https://github.com/TransDecoder/TransDecoder/wiki) |
 | OrthoFinder | [Step-by-Step OrthoFinder Tutorials](https://davidemms.github.io/menu/tutorials.html) |
 
-#### 1.1 Genome/Transcriptome Assembly.
+### 1.1 Genome/Transcriptome Assembly.
 
 We won't cover details about Genome/Transcriptome Assembly and Annotation. Let's assume that we have Transcirptome data from 10 samples.
 
@@ -54,7 +54,7 @@ Next We will need to annotate the transcriptomes with Transdecoder etc., then we
 
 
 
-#### 1.2 OrthoFinder (Ortholog Identification, Alignment, Gene Tree and species Tree Inference)
+### 1.2 OrthoFinder (Ortholog Identification, Alignment, Gene Tree and species Tree Inference)
 
 OrthoFinder is primarily used for identifying orthologs, but there are a lot more to explore in the Ortholog outputs. We can get a [greedy consensus tree](https://www.plants.ox.ac.uk/publication/896690/europe-pubmed-central) from gene trees from each orthogroup, or a tree inferred from the multiple sequnece alignment concatenated from alignments of single-copy orthogroups.
 
@@ -71,7 +71,7 @@ To get a multiple sequnece alignment tree:  `orthofinder -f MyData/ -M msa`
 
 ----
 
-### 2. Manual Workflow
+## 2. Manual Workflow
 
 Software Overview
 
@@ -79,11 +79,11 @@ Software Overview
 | :---: | :---: |
 | mafft | [Multiple Sequence Alignment](https://github.com/mmatschiner/tutorials/blob/master/multiple_sequence_alignment/README.md) |
 | trimal | [trimAl Main Page](https://vicfero.github.io/trimal/) |
-| catfasta2phyml | [Concatenate FASTA alignments to PHYML, PHYLIP, or FASTA format](catfasta2phyml) |
+| catfasta2phyml | [Concatenate FASTA alignments to PHYML, PHYLIP, or FASTA format](https://github.com/nylander/catfasta2phyml) |
 | raxml | [RAxML hands-on session](https://cme.h-its.org/exelixis/web/software/raxml/hands_on.html) |
 
 
-#### 2.1 Genome/Transcriptome/Target Capture Assembly and Annotation
+### 2.1 Genome/Transcriptome/Target Capture Assembly and Annotation
 
 Genome/Transcriptome assmebly and annotation are the same as the previuous section. Basically we are manually repeating the steps as the OrthoFinder. Because we don't need to identify orthogroups from Target Capture sequencing data, this manual method is particularly useful for Target Capture sequencing.
 
@@ -93,27 +93,33 @@ Assemble Target Capture Data:
 
 
 
-#### 2.2 Alignment with *mafft*
+### 2.2 Alignment with *mafft*
 
- The input data for alignments could be either single copy orthologs from the OrthoFinder outputs, or assembled targeted capture sequence:
+This step arranges protein (or DNA) sequences to identify regions of similarity that may be a consequence of evolutionary relationships between the sequences. The input data for alignments could be either single copy orthologs from the OrthoFinder outputs, or assembled targeted capture sequence:
 
 Alignment: `mafft Orthogroup1.fasta > Orthogroup1.output`
 
 Output: `Orthogroup1.output`
 
-#### 2.3 Trimming with *trimal*
+### 2.3 Trimming with *trimal*
+
+trimAl is a tool for the automated removal of spurious sequences or poorly aligned regions from a multiple sequence alignment.
 
 Trimming: `trimal -in Orthogroup1.output -out Orthogroup1_trimmed.output -automated1`
 
 Output: `Orthogroup1_trimmed.output`
 
-#### 2.4 Concatenation with *catfasta2phyml*
+### 2.4 Concatenation with *catfasta2phyml*
+
+catfasta2phyml.pl will concatenate FASTA alignments to one file (interleaved PHYML or FASTA format) after checking that all sequences are aligned (of same length). If there are sequence labels that are not present in all files, a warning will be issued. Sequenced can, however, still be concatenated (and missing sequences be filled with missing data (gaps)) if the argument --concatenate is used.
 
 Concatenation: `./catfasta2phyml/catfasta2phyml.pl --concatenate --verbose --fasta *_trimmed.output > MultipleSequenceAlignment.fasta`
 
 Output: `MultipleSequenceAlignment.fasta`
 
-#### 2.5 Phylogeny Inference with *raxml*
+### 2.5 Phylogeny Inference with *raxml*
+
+RAxML (Randomized Axelerated Maximum Likelihood) is a popular program for phylogenetic analysis of large datasets under maximum likelihood. Its major strength is a fast maximum likelihood tree search algorithm that returns trees with good likelihood scores.
 
 This command will generate 20 ML trees on distinct starting trees and also print the tree with the best likelihood to a file called `RAxML_bestTree.run1`:
 
@@ -134,9 +140,9 @@ Then you can visualize (online)[http://etetoolkit.org/treeview/] or with any loc
 ----
 
 
-### 3. Practice
+## 3. Practice
 
-#### 3.1 Data
+### 3.1 Data
 
 Due to computing power limitations, we will use 2 genes (in practice, there will be hundreds or thousands) to demonstrate the pipeline. Assuming those 2 genes are from OrthoFinder or Target Capture sequencing assembly, we will align, trim both genes respectively, then concatenate the alignments, infer the phylogeny with raxml. In the real world, we will write bash scripts with loops to automate the process, but in this practice, we will do them one by one.
 
@@ -159,7 +165,7 @@ We will use the sequence data from [Matschiner et al. (2017)](https://academic.o
 Please set up your laptop following instructions in *4. Software Installation* before the following steps. Use `conda activate phylogen` to activate the environment.
 
 
-#### 3.2 Alignment
+### 3.2 Alignment
 
 Use [`cd`](https://phoenixnap.com/kb/linux-cd-command) to navigate to the directory with the data. Use [`ls`](https://www.freecodecamp.org/news/the-linux-ls-command-how-to-list-files-in-a-directory-with-options/) to list files and directories in the current directory.
 
@@ -173,7 +179,7 @@ mafft 16s.fasta > 16s.output
 
 Output: `rag1.output` and `16s.output`
 
-#### 3.3 Trimming with *trimal*
+### 3.3 Trimming with *trimal*
 
 Trimming:
 
@@ -183,14 +189,14 @@ trimal -in 16s.output -out 16s_trimmed.output -automated1
 ```
 Output: `rag1_trimmed.output` and `16s_trimmed.output`
 
-#### 3.4 Concatenation with *catfasta2phyml*
+### 3.4 Concatenation with *catfasta2phyml*
 If the `catfasta2phyml.pl` script is in the current directory, you should use `./catfasta2phyml.pl` instead.
 
 Concatenation: `./catfasta2phyml/catfasta2phyml.pl --concatenate --verbose --fasta *_trimmed.output > MultipleSequenceAlignment.fasta`
 
 Output: `MultipleSequenceAlignment.fasta`
 
-#### 3.5 Phylogeny Inference with *raxml*
+### 3.5 Phylogeny Inference with *raxml*
 
 This command will generate 20 ML trees on distinct starting trees and also print the tree with the best likelihood to a file called `RAxML_bestTree.run1`:
 
@@ -213,9 +219,9 @@ Then you can use `cat RAxML_bipartitions.Final` to print the results in the term
 
 ----
 
-### 4. Software Installation
+## 4. Software Installation
 
-#### 4.1 conda setup
+### 4.1 conda setup
 
 Follow the [instructions](https://docs.conda.io/en/latest/miniconda.html#installing) here to install miniconda3.
 
@@ -233,7 +239,7 @@ conda config --set channel_priority strict
 ```
 
 
-#### 4.2 install softwares
+### 4.2 install softwares
 
 Create environment: `conda create --name phylogen`
 
