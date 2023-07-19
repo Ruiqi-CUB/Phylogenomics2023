@@ -10,21 +10,21 @@ Ruiqi.Li@Colorado.edu
 
 ## 1. Simplified Workflow
 
-###  1.1 Genome/Transcriptome Assembly
+####  1.1 Genome/Transcriptome Assembly
 
-###  1.2 OrthoFinder (Ortholog Identification, Alignment, Gene Tree and species Tree Inference)
+####  1.2 OrthoFinder (Ortholog Identification, Alignment, Gene Tree and species Tree Inference)
 
 ## 2. Manual Workflow
 
-###  2.1 Genome/Transcriptome/Target Capture Assembly
+####  2.1 Genome/Transcriptome/Target Capture Assembly
 
-###  2.2 Alignment with *mafft*
+####  2.2 Alignment with *mafft*
 
-###  2.3 Trimming with *trimal*
+####  2.3 Trimming with *trimal*
 
-###  2.4 Concatenation with *catfasta2phyml*
+####  2.4 Concatenation with *catfasta2phyml*
 
-###  2.5 Phylogeny Inference with *raxml*
+####  2.5 Phylogeny Inference with *raxml*
 
 ## 3. Practice
 
@@ -58,15 +58,16 @@ Next We will need to annotate the transcriptomes with Transdecoder etc., then we
 
 OrthoFinder is primarily used for identifying orthologs, but there are a lot more to explore in the Ortholog outputs. We can get a [greedy consensus tree](https://www.plants.ox.ac.uk/publication/896690/europe-pubmed-central) from gene trees from each orthogroup, or a tree inferred from the multiple sequnece alignment concatenated from alignments of single-copy orthogroups.
 
-First, we will need to put all the transcirptome data in one directory `MyData`. If you use `ls MyData` to check which files are in this directory, your will see `Sample1.fasta`, `Sample2.fasta` ... `Sample10.fasta`
-
-To get a greedy consensus tree: `orthofinder -f MyData/`. The tree will be in the directory `Results/Species_Tree/SpeciesTree_rooted.txt`
+First, we will need to put all the transcirptome data in one directory `ExampleData`. If you use `ls MyData` to check which files are in this directory, your will see `Sample1.fasta`, `Sample2.fasta` ... `Sample10.fasta`.
 
 
+**The following steps are time-consuming in a laptop.** You don't need to practice, but your can have a look at the results in the shared OneDrive folder.
 
-To get a multiple sequnece alignment tree:  `orthofinder -f MyData/ -M msa`
+To get a greedy consensus tree: `orthofinder -f ExampleData/`. The tree will be in the directory `ExampleData/OrthoFinder/Results/Results_Jul19/Species_Tree/SpeciesTree_rooted.txt`
 
-(I need to test if it gives us a species tree directly)
+
+To get a multiple sequnece alignment tree:  `orthofinder -f ExampleData/ -M msa`. The tree will be in the directory `ExampleData/OrthoFinder/Results/Results_Jul19_1/Species_Tree/SpeciesTree_rooted.txt`
+
 
 
 ----
@@ -95,7 +96,7 @@ Assemble Target Capture Data:
 
 ### 2.2 Alignment with *mafft*
 
-This step arranges protein (or DNA) sequences to identify regions of similarity that may be a consequence of evolutionary relationships between the sequences. The input data for alignments could be either single copy orthologs from the OrthoFinder outputs, or assembled targeted capture sequence:
+This step arranges protein (or DNA) sequences to identify regions of similarity that may be a consequence of evolutionary relationships between the sequences. The input data for alignments could be either single copy orthologs from the OrthoFinder outputs `Single_Copy_Orthologue_Sequences/OGXXXXXXX.fa`, or assembled targeted capture sequence:
 
 Alignment: `mafft Orthogroup1.fasta > Orthogroup1.output`
 
