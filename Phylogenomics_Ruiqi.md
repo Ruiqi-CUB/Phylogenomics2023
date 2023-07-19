@@ -8,27 +8,27 @@ Ruiqi.Li@Colorado.edu
 ------
 ## Content
 
-1. Simplified Workflow
+## 1. Simplified Workflow
 
-  1.1 Genome/Transcriptome Assembly
+###  1.1 Genome/Transcriptome Assembly
 
-  1.2 OrthoFinder (Ortholog Identification, Alignment, Gene Tree and species Tree Inference)
+###  1.2 OrthoFinder (Ortholog Identification, Alignment, Gene Tree and species Tree Inference)
 
-2. Manual Workflow
+## 2. Manual Workflow
 
-  2.1 Genome/Transcriptome/Target Capture Assembly
+###  2.1 Genome/Transcriptome/Target Capture Assembly
 
-  2.2 Alignment with *mafft*
+###  2.2 Alignment with *mafft*
 
-  2.3 Trimming with *trimal*
+###  2.3 Trimming with *trimal*
 
-  2.4 Concatenation with *catfasta2phyml*
+###  2.4 Concatenation with *catfasta2phyml*
 
-  2.5 Phylogeny Inference with *raxml*
+###  2.5 Phylogeny Inference with *raxml*
 
-3. Practice
+## 3. Practice
 
-4. Conda Setup
+## 4. Software Setup
 
   ------
 
@@ -69,7 +69,7 @@ To get a multiple sequnece alignment tree:  `orthofinder -f MyData/ -M msa`
 (I need to test if it gives us a species tree directly)
 
 
-
+----
 
 ### 2. Manual Workflow
 
@@ -85,15 +85,17 @@ Software Overview
 
 #### 2.1 Genome/Transcriptome/Target Capture Assembly and Annotation
 
-Genome/Transcriptome assmebly and annotation are the same as the previuous section. Basically we are repeating the steps in the OrthoFinder. Because we don't need to identify orthogroups from Target Capture sequencing data, this manual method is particularly useful for Target Capture sequencing.
+Genome/Transcriptome assmebly and annotation are the same as the previuous section. Basically we are manually repeating the steps as the OrthoFinder. Because we don't need to identify orthogroups from Target Capture sequencing data, this manual method is particularly useful for Target Capture sequencing.
 
 Assemble Target Capture Data:
+
+[HybPiper](https://github.com/mossmatters/HybPiper) was designed for targeted sequence capture, in which DNA sequencing libraries are enriched for gene regions of interest, especially for phylogenetics. HybPiper is a suite of Python scripts/modules that wrap and connect bioinformatics tools in order to extract target sequences from high-throughput DNA sequencing reads. We won't cover details in targeted  capture sequence asssmbly today.
 
 
 
 #### 2.2 Alignment with *mafft*
 
-From the OrthoFinder Outputs, we can find sequence of each Orthogroup, we will use single copy orthologs for the downstream analyses:
+ The input data for alignments could be either single copy orthologs from the OrthoFinder outputs, or assembled targeted capture sequence:
 
 Alignment: `mafft Orthogroup1.fasta > Orthogroup1.output`
 
@@ -129,13 +131,14 @@ This call will produce to output files that can be visualized: `RAxML_bipartitio
 
 Then you can visualize (online)[http://etetoolkit.org/treeview/] or with any local software you choose (e.g. MEGA, FigTree)
 
-``
+----
+
 
 ### 3. Practice
 
 #### 3.1 Data
 
-Due to computing power restrictions, we will use 2 genes (in practice, there will be hundreds or thousands) to demonstrate the pipeline. Assuming those 2 genes are from OrthoFinder or Target Capture sequencing results, we will align, trim both genes respectively, then concatenate the alignments, infer the phylogeny with raxml. In the real world, we will write bash scripts with loops to automate the process, but in this practice, we will do them one by one.
+Due to computing power limitations, we will use 2 genes (in practice, there will be hundreds or thousands) to demonstrate the pipeline. Assuming those 2 genes are from OrthoFinder or Target Capture sequencing assembly, we will align, trim both genes respectively, then concatenate the alignments, infer the phylogeny with raxml. In the real world, we will write bash scripts with loops to automate the process, but in this practice, we will do them one by one.
 
 
 We will use the sequence data from [Matschiner et al. (2017)](https://academic.oup.com/sysbio/article/66/1/3/2418030?login=true#87816111). The dataset used here includes sequences for two genes; the mitochondrial 16S gene coding for [16S ribosomal RNA](https://en.wikipedia.org/wiki/16S_ribosomal_RNA) and the [nuclear RAG1](https://en.wikipedia.org/wiki/RAG1) gene coding for recombination activating protein 1. The sequences represent the 9 species listed in the table below. You will find the sequence file `rag1.fasta` and `16s.fasta` on the workshop Github page.
@@ -158,6 +161,9 @@ Please set up your laptop following instructions in *4. Software Installation* b
 
 #### 3.2 Alignment
 
+Use [`cd`](https://phoenixnap.com/kb/linux-cd-command) to navigate to the directory with the data. Use [`ls`](https://www.freecodecamp.org/news/the-linux-ls-command-how-to-list-files-in-a-directory-with-options/) to list files and directories in the current directory.
+
+
 Alignment:
 
 ```
@@ -178,6 +184,7 @@ trimal -in 16s.output -out 16s_trimmed.output -automated1
 Output: `rag1_trimmed.output` and `16s_trimmed.output`
 
 #### 3.4 Concatenation with *catfasta2phyml*
+If the `catfasta2phyml.pl` script is in the current directory, you should use `./catfasta2phyml.pl` instead.
 
 Concatenation: `./catfasta2phyml/catfasta2phyml.pl --concatenate --verbose --fasta *_trimmed.output > MultipleSequenceAlignment.fasta`
 
@@ -199,8 +206,12 @@ we can now use them to draw bipartitions on the best ML tree as follows: `raxmlH
 
 This call will produce to output files that can be visualized: `RAxML_bipartitions.Final`
 
-Then you can visualize (online)[http://etetoolkit.org/treeview/] or with any local software you choose (e.g. MEGA, FigTree)
+
+
+Then you can use `cat RAxML_bipartitions.Final` to print the results in the terminal, then visualize [online](http://etetoolkit.org/treeview/] or with any local software you choose (e.g. MEGA, FigTree)
 ``
+
+----
 
 ### 4. Software Installation
 
@@ -231,5 +242,3 @@ Activate environment: `conda activate phylogen`
 install software used in the workshop: `conda install -c bioconda orthofinder trimal raxml mafft`
 
 Install software with Github:`git clone https://github.com/nylander/catfasta2phyml.git` or go to the [Github page](https://github.com/nylander/catfasta2phyml/blob/master/catfasta2phyml.pl) and click Download from the dropdown menu of **...**
-
-#### 4.3 install softwares with github
