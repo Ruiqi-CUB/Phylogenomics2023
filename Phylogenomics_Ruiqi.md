@@ -136,7 +136,7 @@ we can now use them to draw bipartitions on the best ML tree as follows: `raxmlH
 
 This call will produce to output files that can be visualized: `RAxML_bipartitions.Final`
 
-Then you can visualize (online)[http://etetoolkit.org/treeview/] or with any local software you choose (e.g. MEGA, FigTree)
+Then you can visualize [online])http://etetoolkit.org/treeview/) or with any local software you choose (e.g. MEGA, FigTree)
 
 ----
 
@@ -215,7 +215,7 @@ This call will produce to output files that can be visualized: `RAxML_bipartitio
 
 
 
-Then you can use `cat RAxML_bipartitions.Final` to print the results in the terminal, then visualize [online](http://etetoolkit.org/treeview/] or with any local software you choose (e.g. MEGA, FigTree)
+Then you can use `cat RAxML_bipartitions.Final` to print the results in the terminal, then visualize [online](http://etetoolkit.org/treeview/) or with any local software you choose (e.g. MEGA, FigTree)
 
 
 ----
