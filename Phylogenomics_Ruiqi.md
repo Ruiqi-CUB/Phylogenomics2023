@@ -159,7 +159,7 @@ We will use the sequence data from [Matschiner et al. (2017)](https://academic.o
 |Neolampbrichar|	*Neolamprologus brichardi* |	African cichlids|
 |Oreochrnilotic|	*Oreochromis niloticus* |	African cichlids|
 |Pundaminyerere|	*Pundamilia nyererei* |	African cichlids|
-|Tylochrpolylep|	*Tylochromis polylepis* |	African cichlids｜
+|Tylochrpolylep|	*Tylochromis polylepis* ｜	African cichlids｜
 |Ectodusdescamp|	*Ectodus descampsii* |	African cichlids |
 
 
@@ -216,7 +216,7 @@ This call will produce to output files that can be visualized: `RAxML_bipartitio
 
 
 Then you can use `cat RAxML_bipartitions.Final` to print the results in the terminal, then visualize [online](http://etetoolkit.org/treeview/] or with any local software you choose (e.g. MEGA, FigTree)
-``
+
 
 ----
 
@@ -226,7 +226,7 @@ Then you can use `cat RAxML_bipartitions.Final` to print the results in the term
 
 Follow the [instructions](https://docs.conda.io/en/latest/miniconda.html#installing) here to install miniconda3.
 
-You can also watch a (Youtube video)[https://www.youtube.com/watch?v=oHHbsMfyNR4] here.
+You can also watch a [Youtube video](https://www.youtube.com/watch?v=oHHbsMfyNR4) here.
 
 You will see *(base)* on the left to the prompt in the terminal.
 
@@ -248,4 +248,4 @@ Activate environment: `conda activate phylogen`
 
 install software used in the workshop: `conda install -c bioconda orthofinder trimal raxml mafft`
 
-Install software with Github:`git clone https://github.com/nylander/catfasta2phyml.git` or go to the [Github page](https://github.com/nylander/catfasta2phyml/blob/master/catfasta2phyml.pl) and click Download from the dropdown menu of **...**
+Install software with Github:`git clone https://github.com/nylander/catfasta2phyml.git` or go to the [Github page](https://github.com/nylander/catfasta2phyml/blob/master/catfasta2phyml.pl) and click Download from the dropdown menu of **...** in the top right corner.
