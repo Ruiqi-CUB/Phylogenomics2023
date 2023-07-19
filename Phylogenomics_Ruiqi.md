@@ -4,7 +4,7 @@ Ruiqi Li | July 20th 2023
 
 Ruiqi.Li@Colorado.edu
 
-Test 
+
 ------
 ## Content
 
@@ -113,29 +113,123 @@ Output: `MultipleSequenceAlignment.fasta`
 
 #### 2.5 Phylogeny Inference with *raxml*
 
-Get a best tree for bootstraping: `raxmlHPC-PTHREADS -T 36 -p 12345 -N 20 -s Nov2022_${genus}_${value}.fasta -m GTRCAT -n run1`
+This command will generate 20 ML trees on distinct starting trees and also print the tree with the best likelihood to a file called `RAxML_bestTree.run1`:
 
-100 bootstraps: `raxmlHPC-PTHREADS -T 36 -p 12345 -b 12345 -s Nov2022_${genus}_${value}.fasta -N 100 -m GTRCAT -n run2`
+`raxmlHPC -p 12345 -N 20 -s MultipleSequenceAlignment.fasta -m GTRCAT -n run1`
 
-Get the ML tree: `raxmlHPC-PTHREADS -T 36 -f b -t RAxML_bestTree.run1  -z RAxML_bootstrap.run2 -m GTRCAT -n Final`
+We need to tell RAxML that we want to do bootstrapping by providing a bootstrap random number seed via -b 12345 and the number of bootstrap replicates we want to compute via `-N 100`.:
 
-Output: maximum likelihood tree with 100 bootstraps ``
+`raxmlHPC -p 12345 -b 12345 -s MultipleSequenceAlignment.fasta -N 100 -m GTRCAT -n run2`.
+
+Having computed the bootstrap replicate trees that will be printed to a file called `RAxML_bootstrap.run2`
+
+we can now use them to draw bipartitions on the best ML tree as follows: `raxmlHPC -f b -t RAxML_bestTree.run1  -z RAxML_bootstrap.run2 -m GTRCAT -n Final`
+
+This call will produce to output files that can be visualized: `RAxML_bipartitions.Final`
+
+Then you can visualize (online)[http://etetoolkit.org/treeview/] or with any local software you choose (e.g. MEGA, FigTree)
 
 ``
 
 ### 3. Practice
 
-Due to computing power restrictions, we will use 2 genes (in practice, there will be hundreds or thousands) to demonstrate the pipeline. Assuming those 2 genes are from OrthoFinder or Target Capture sequencing results, we will align, trim both genes respectively, then concatenate the alignments, infer the phylogeny with raxml. In practice, we will write bash scripts with loops to automate the process, but in this practice, we will do them one by one.
+#### 3.1 Data
+
+Due to computing power restrictions, we will use 2 genes (in practice, there will be hundreds or thousands) to demonstrate the pipeline. Assuming those 2 genes are from OrthoFinder or Target Capture sequencing results, we will align, trim both genes respectively, then concatenate the alignments, infer the phylogeny with raxml. In the real world, we will write bash scripts with loops to automate the process, but in this practice, we will do them one by one.
 
 
-I need to find example dataset later.     
+We will use the sequence data from [Matschiner et al. (2017)](https://academic.oup.com/sysbio/article/66/1/3/2418030?login=true#87816111). The dataset used here includes sequences for two genes; the mitochondrial 16S gene coding for [16S ribosomal RNA](https://en.wikipedia.org/wiki/16S_ribosomal_RNA) and the [nuclear RAG1](https://en.wikipedia.org/wiki/RAG1) gene coding for recombination activating protein 1. The sequences represent the 9 species listed in the table below. You will find the sequence file `rag1.fasta` and `16s.fasta` on the workshop Github page.
+
+|ID|Species|Group|
+|---|---|---|
+|Acanthapomotis|	*Acantharchus pomotis* |	Non-cichlid|
+|Acropomjaponic|	*Acropoma japonicum* |	Non-cichlid |
+|Etroplumaculat|	*Etroplus maculatus* |	Indian cichlids|
+|Maylandzebraxx|	*Maylandia zebra* |	African cichlids|
+|Neolampbrichar|	*Neolamprologus brichardi* |	African cichlids|
+|Oreochrnilotic|	*Oreochromis niloticus* |	African cichlids|
+|Pundaminyerere|	*Pundamilia nyererei* |	African cichlids|
+|Tylochrpolylep|	*Tylochromis polylepis* |	African cichlids｜
+|Ectodusdescamp|	*Ectodus descampsii* |	African cichlids |
 
 
+Please set up your laptop following instructions in *4. Software Installation* before the following steps. Use `conda activate phylogen` to activate the environment.
 
-### 4. Software set-up
 
-#### 4.1 conda set-up
+#### 3.2 Alignment
 
-#### 4.2 install softwares with `conda install`
+Alignment:
+
+```
+mafft rag1.fasta > rag1.output
+mafft 16s.fasta > 16s.output
+```
+
+Output: `rag1.output` and `16s.output`
+
+#### 3.3 Trimming with *trimal*
+
+Trimming:
+
+```
+trimal -in rag1.output -out rag1_trimmed.output -automated1
+trimal -in 16s.output -out 16s_trimmed.output -automated1
+```
+Output: `rag1_trimmed.output` and `16s_trimmed.output`
+
+#### 3.4 Concatenation with *catfasta2phyml*
+
+Concatenation: `./catfasta2phyml/catfasta2phyml.pl --concatenate --verbose --fasta *_trimmed.output > MultipleSequenceAlignment.fasta`
+
+Output: `MultipleSequenceAlignment.fasta`
+
+#### 3.5 Phylogeny Inference with *raxml*
+
+This command will generate 20 ML trees on distinct starting trees and also print the tree with the best likelihood to a file called `RAxML_bestTree.run1`:
+
+`raxmlHPC -p 12345 -N 20 -s MultipleSequenceAlignment.fasta -m GTRCAT -n run1`
+
+We need to tell RAxML that we want to do bootstrapping by providing a bootstrap random number seed via -b 12345 and the number of bootstrap replicates we want to compute via `-N 100`.:
+
+`raxmlHPC -p 12345 -b 12345 -s MultipleSequenceAlignment.fasta -N 100 -m GTRCAT -n run2`.
+
+Having computed the bootstrap replicate trees that will be printed to a file called `RAxML_bootstrap.run2`
+
+we can now use them to draw bipartitions on the best ML tree as follows: `raxmlHPC -f b -t RAxML_bestTree.run1  -z RAxML_bootstrap.run2 -m GTRCAT -n Final`
+
+This call will produce to output files that can be visualized: `RAxML_bipartitions.Final`
+
+Then you can visualize (online)[http://etetoolkit.org/treeview/] or with any local software you choose (e.g. MEGA, FigTree)
+``
+
+### 4. Software Installation
+
+#### 4.1 conda setup
+
+Follow the [instructions](https://docs.conda.io/en/latest/miniconda.html#installing) here to install miniconda3.
+
+You can also watch a (Youtube video)[https://www.youtube.com/watch?v=oHHbsMfyNR4] here.
+
+You will see *(base)* on the left to the prompt in the terminal.
+
+Then you will need to set up Bioconda, see detailed [instructions here](https://bioconda.github.io/).
+
+```
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+```
+
+
+#### 4.2 install softwares
+
+Create environment: `conda create --name phylogen`
+
+Activate environment: `conda activate phylogen`
+
+install software used in the workshop: `conda install -c bioconda orthofinder trimal raxml mafft`
+
+Install software with Github:`git clone https://github.com/nylander/catfasta2phyml.git` or go to the [Github page](https://github.com/nylander/catfasta2phyml/blob/master/catfasta2phyml.pl) and click Download from the dropdown menu of **...**
 
 #### 4.3 install softwares with github
