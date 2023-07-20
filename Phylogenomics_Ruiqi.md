@@ -58,7 +58,7 @@ Next We will need to annotate the transcriptomes with Transdecoder etc., then we
 
 OrthoFinder is primarily used for identifying orthologs, but there are a lot more to explore in the Ortholog outputs. We can get a [greedy consensus tree](https://www.plants.ox.ac.uk/publication/896690/europe-pubmed-central) from gene trees from each orthogroup, or a tree inferred from the multiple sequnece alignment concatenated from alignments of single-copy orthogroups.
 
-First, we will need to put all the transcirptome data in one directory `ExampleData`. If you use `ls MyData` to check which files are in this directory, your will see `Sample1.fasta`, `Sample2.fasta` ... `Sample10.fasta`.
+First, we will need to put all the transcirptome data in one directory `ExampleData`. If you use `ls ExampleData` to check which files are in this directory, your will see `Sample1.fasta`, `Sample2.fasta` ... `Sample10.fasta`.
 
 
 **The following steps are time-consuming in a laptop.** You don't need to practice, but your can have a look at the results in the shared OneDrive folder.
@@ -86,7 +86,7 @@ Software Overview
 
 ### 2.1 Genome/Transcriptome/Target Capture Assembly and Annotation
 
-Genome/Transcriptome assmebly and annotation are the same as the previuous section. Basically we are manually repeating the steps as the OrthoFinder. Because we don't need to identify orthogroups from Target Capture sequencing data, this manual method is particularly useful for Target Capture sequencing.
+Genome/Transcriptome assmebly and annotation are the same as in the previuous section. Basically we are manually repeating the steps as in the OrthoFinder. Because we don't need to identify orthogroups from Target Capture sequencing data, this manual method is particularly useful for Target Capture sequencing.
 
 Assemble Target Capture Data:
 
@@ -136,7 +136,7 @@ we can now use them to draw bipartitions on the best ML tree as follows: `raxmlH
 
 This call will produce to output files that can be visualized: `RAxML_bipartitions.Final`
 
-Then you can visualize [online])http://etetoolkit.org/treeview/) or with any local software you choose (e.g. MEGA, FigTree)
+Then you can visualize it [online](http://etetoolkit.org/treeview/) or with any local software you choose (e.g. MEGA, FigTree)
 
 ----
 
@@ -228,7 +228,7 @@ Follow the [instructions](https://docs.conda.io/en/latest/miniconda.html#install
 
 You can also watch a [Youtube video](https://www.youtube.com/watch?v=oHHbsMfyNR4) here.
 
-You will see *(base)* on the left to the prompt in the terminal.
+You will see *(base)* on the left to the prompt in the terminal if installed correctly.
 
 Then you will need to set up Bioconda, see detailed [instructions here](https://bioconda.github.io/).
 
