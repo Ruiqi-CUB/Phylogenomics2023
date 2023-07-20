@@ -159,7 +159,7 @@ We will use the sequence data from [Matschiner et al. (2017)](https://academic.o
 |Neolampbrichar|	*Neolamprologus brichardi* |	African cichlids|
 |Oreochrnilotic|	*Oreochromis niloticus* |	African cichlids|
 |Pundaminyerere|	*Pundamilia nyererei* |	African cichlids|
-|Tylochrpolylep|	*Tylochromis polylepis* ｜	African cichlids｜
+|Tylochrpolylep|	*Tylochromis polylepis* |	African cichlids|
 |Ectodusdescamp|	*Ectodus descampsii* |	African cichlids |
 
 
