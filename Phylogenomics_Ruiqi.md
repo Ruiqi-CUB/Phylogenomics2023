@@ -1,6 +1,6 @@
 
 # Phylogenomics Workshop
-Ruiqi Li | July 20th 2023
+Ruiqi Li | July 17th 2024
 
 Ruiqi.Li@Colorado.edu
 
@@ -61,12 +61,16 @@ OrthoFinder is primarily used for identifying orthologs, but there are a lot mor
 First, we will need to put all the transcirptome data in one directory `ExampleData`. If you use `ls ExampleData` to check which files are in this directory, your will see `Sample1.fasta`, `Sample2.fasta` ... `Sample10.fasta`.
 
 
-**The following steps are time-consuming in a laptop.** You don't need to practice, but your can have a look at the results in the shared OneDrive folder.
+**The following steps are time-consuming.** You don't need to practice, but your can have a look at the results in your linux server folder.
+
+Please `cd /home/ruiqi/ruiqi_data/PhylogenomicsWorkshop/ExampleData` to view the results.
 
 To get a greedy consensus tree: `orthofinder -f ExampleData/`. The tree will be in the directory `ExampleData/OrthoFinder/Results/Results_Jul19/Species_Tree/SpeciesTree_rooted.txt`
 
 
 To get a multiple sequnece alignment tree:  `orthofinder -f ExampleData/ -M msa`. The tree will be in the directory `ExampleData/OrthoFinder/Results/Results_Jul19_1/Species_Tree/SpeciesTree_rooted.txt`
+
+To view the tree without downloading the files: cat `SpeciesTree_rooted.txt` then view it on [etetoolkit.org](http://etetoolkit.org/treeview/)
 
 
 
@@ -86,7 +90,7 @@ Software Overview
 
 ### 2.1 Genome/Transcriptome/Target Capture Assembly and Annotation
 
-Genome/Transcriptome assmebly and annotation are the same as in the previuous section. Basically we are manually repeating the steps as in the OrthoFinder. Because we don't need to identify orthogroups from Target Capture sequencing data, this manual method is particularly useful for Target Capture sequencing.
+Genome/Transcriptome assmebly and annotation are the same as in the previous section. Basically we are manually repeating the steps as in the OrthoFinder. Because we don't need to identify orthogroups from Target Capture sequencing data, this manual method is particularly useful for Target Capture sequencing.
 
 Assemble Target Capture Data:
 
@@ -163,10 +167,13 @@ We will use the sequence data from [Matschiner et al. (2017)](https://academic.o
 |Ectodusdescamp|	*Ectodus descampsii* |	African cichlids |
 
 
-Please set up your laptop following instructions in *4. Software Installation* before the following steps. Use `conda activate phylogen` to activate the environment.
+Please set up your laptop following instructions in *4. Software Installation* before the following steps. Use `conda activate phylogeny` to activate the environment.
 
 
 ### 3.2 Alignment
+
+
+Copy data yo your current directory using `cp -r /home/ruiqi/ruiqi_data/PhylogenomicsWorkshop/Data ./`
 
 Use [`cd`](https://phoenixnap.com/kb/linux-cd-command) to navigate to the directory with the data. Use [`ls`](https://www.freecodecamp.org/news/the-linux-ls-command-how-to-list-files-in-a-directory-with-options/) to list files and directories in the current directory.
 
@@ -218,6 +225,12 @@ This call will produce to output files that can be visualized: `RAxML_bipartitio
 Then you can use `cat RAxML_bipartitions.Final` to print the results in the terminal, then visualize [online](http://etetoolkit.org/treeview/) or with any local software you choose (e.g. MEGA, FigTree)
 
 
+Alternatively, you could use IQtree2 (you will need to install it first in session 4). `-m MFP` is automatic model selection; `-B 100` means 100 bootstraps; `-T 4` means using 4 threads/CPUs.
+
+`iqtree2 -s MultipleSequenceAlignment.fasta -m MFP -B 1000 -T 4`
+
+view the consensus tree in file `MultipleSequenceAlignment.fasta.contree`
+
 ----
 
 ## 4. Software Installation
@@ -226,13 +239,21 @@ Then you can use `cat RAxML_bipartitions.Final` to print the results in the term
 
 Follow the [instructions](https://docs.conda.io/en/latest/miniconda.html#installing) here to install miniconda3.
 
-You can also watch a [Youtube video](https://www.youtube.com/watch?v=oHHbsMfyNR4) here.
 
-You will see *(base)* on the left to the prompt in the terminal if installed correctly.
+For Mac users
+```bash
+mkdir -p ~/miniconda3
+curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ~/miniconda3/miniconda.sh
+bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+rm -rf ~/miniconda3/miniconda.sh
+
+```
+
+Reopen your terminal and you will see *(base)* on the left to the prompt in the terminal if installed correctly.
 
 Then you will need to set up Bioconda, see detailed [instructions here](https://bioconda.github.io/).
 
-```
+```bash
 conda config --add channels defaults
 conda config --add channels bioconda
 conda config --add channels conda-forge
@@ -242,10 +263,12 @@ conda config --set channel_priority strict
 
 ### 4.2 install softwares
 
-Create environment: `conda create --name phylogen`
+Create environment: `conda create --name phylogeny`
 
-Activate environment: `conda activate phylogen`
+Activate environment: `conda activate phylogeny`
 
 install software used in the workshop: `conda install -c bioconda orthofinder trimal raxml mafft`
+
+If you want to use iqtree2 `conda install bioconda::iqtree`
 
 Install software with Github:`git clone https://github.com/nylander/catfasta2phyml.git` or go to the [Github page](https://github.com/nylander/catfasta2phyml/blob/master/catfasta2phyml.pl) and click Download from the dropdown menu of **...** in the top right corner.
