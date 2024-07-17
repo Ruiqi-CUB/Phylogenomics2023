@@ -240,13 +240,11 @@ view the consensus tree in file `MultipleSequenceAlignment.fasta.contree`
 Follow the [instructions](https://docs.conda.io/en/latest/miniconda.html#installing) here to install miniconda3.
 
 
-For Mac users
 ```bash
 mkdir -p ~/miniconda3
-curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ~/miniconda3/miniconda.sh
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
 bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 rm -rf ~/miniconda3/miniconda.sh
-
 ```
 
 Reopen your terminal and you will see *(base)* on the left to the prompt in the terminal if installed correctly.
