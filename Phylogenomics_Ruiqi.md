@@ -1,9 +1,8 @@
 
-# Phylogenomics Workshop
-Ruiqi Li | July 17th 2024
+# Phylogenomics Module
+Ruiqi Li | Oct 27th 2024
 
-Ruiqi.Li@Colorado.edu
-
+liruiqi@usc.edu
 
 ------
 ## Content
