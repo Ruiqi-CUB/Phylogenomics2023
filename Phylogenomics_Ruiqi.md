@@ -171,8 +171,9 @@ Please set up your laptop following instructions in *4. Software Installation* b
 
 ### 3.2 Alignment
 
+Reserves computing resources for an interactive job `salloc --mem=16GB -p main --cpus-per-task=2 --time=2:00:00`
 
-Copy data yo your current directory using `cp -r /home/ruiqi/ruiqi_data/PhylogenomicsWorkshop/Data ./`
+Download data to your working directory
 
 Use [`cd`](https://phoenixnap.com/kb/linux-cd-command) to navigate to the directory with the data. Use [`ls`](https://www.freecodecamp.org/news/the-linux-ls-command-how-to-list-files-in-a-directory-with-options/) to list files and directories in the current directory.
 
